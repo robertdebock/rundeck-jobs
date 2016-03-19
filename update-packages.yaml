@@ -14,7 +14,7 @@
   sequence:
     commands:
     - description: Hostname
-      exec: yum check-update
+      exec: echo "$(date) Starting update."
     - script: |-
         #!/bin/bash
 
@@ -23,5 +23,7 @@
         elif [ -x /usr/bin/apt-get ] ; then
          echo "apt-get is not configured..."
         fi
+    - description: Hostname
+      exec: echo "$(date) Finished update."
     keepgoing: false
     strategy: node-first
