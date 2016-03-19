@@ -15,5 +15,13 @@
     commands:
     - description: Hostname
       exec: yum check-update
+    - script: |-
+        #!/bin/bash
+
+        if [ -x /usr/bin/yum ] ; then
+         yum check-update
+        elif [ -x /usr/bin/apt-get ] ; then
+         echo "apt-get is not configured..."
+        fi
     keepgoing: false
     strategy: node-first
