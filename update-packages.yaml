@@ -1,0 +1,19 @@
+- description: A job to update packages.
+  executionEnabled: true
+  loglevel: INFO
+  name: Update packages
+  nodefilters:
+    dispatch:
+      excludePrecedence: true
+      keepgoing: true
+      rankOrder: ascending
+      threadcount: 3
+    filter: .*
+  nodesSelectedByDefault: true
+  scheduleEnabled: true
+  sequence:
+    commands:
+    - description: Hostname
+      exec: yum check-update
+    keepgoing: false
+    strategy: node-first
