@@ -25,14 +25,14 @@
          if [ $? =  0 ] ; then
            echo "Package $RD_OPTION_PACKAGE is already installed."
          else
-           yum -y install $RD_OPTION_PACKAGE
+           sudo yum -y install $RD_OPTION_PACKAGE
          fi
         elif [ -x /usr/bin/apt-get ] ; then
          dpkg -l $RD_OPTION_PACKAGE > /dev/null 2>&1
          if [ $? =  0 ] ; then
            echo "Package $RD_OPTION_PACKAGE is already installed."
          else
-           apt-get install $RD_OPTION_PACKAGE
+           sudo apt-get install $RD_OPTION_PACKAGE
          fi
         fi
     keepgoing: true
