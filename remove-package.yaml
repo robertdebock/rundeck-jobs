@@ -1,0 +1,39 @@
+- description: Remove a package.
+  executionEnabled: true
+  loglevel: INFO
+  name: Remove package
+  nodefilters:
+    dispatch:
+      excludePrecedence: true
+      keepgoing: true
+      rankOrder: ascending
+      threadcount: 1
+    filter: .*
+  nodesSelectedByDefault: true
+  options:
+  - description: The name of the package
+    name: package
+    required: true
+  scheduleEnabled: true
+  sequence:
+    commands:
+    - script: |
+        #!/bin/bash
+
+        if [ -x /usr/bin/yum ] ; then
+         rpm -q @option.package@ > /dev/null 2>&1
+         if [ $? =  0 ] ; then
+           sudo yum erase @option.package@
+         else
+           echo "Package @option.package@ is not installed."
+         fi
+        elif [ -x /usr/bin/apt-get ] ; then
+         dpkg -l @option.package@ > /dev/null 2>&1
+         if [ $? =  0 ] ; then
+           sudo apt-get remove @option.package@
+         else
+           echo "Package @option.package@ is not installed."
+         fi
+        fi
+    keepgoing: true
+    strategy: node-first
