@@ -21,18 +21,18 @@
         #!/bin/bash
 
         if [ -x /usr/bin/yum ] ; then
-         rpm -q $RD_OPTION_PACKAGE > /dev/null 2>&1
+         rpm -q @option.package@ > /dev/null 2>&1
          if [ $? =  0 ] ; then
-           echo "Package $RD_OPTION_PACKAGE is already installed."
+           echo "Package @option.package@ is already installed."
          else
-           sudo yum -y install $RD_OPTION_PACKAGE
+           sudo yum -y install @option.package@
          fi
         elif [ -x /usr/bin/apt-get ] ; then
-         dpkg -l $RD_OPTION_PACKAGE > /dev/null 2>&1
+         dpkg -l @option.package@ > /dev/null 2>&1
          if [ $? =  0 ] ; then
-           echo "Package $RD_OPTION_PACKAGE is already installed."
+           echo "Package @option.package@ is already installed."
          else
-           sudo apt-get install $RD_OPTION_PACKAGE
+           sudo apt-get install @option.package@
          fi
         fi
     keepgoing: true
