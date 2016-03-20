@@ -1,0 +1,40 @@
+- description: Install a package.
+  executionEnabled: true
+  loglevel: INFO
+  name: Install package
+  nodefilters:
+    dispatch:
+      excludePrecedence: true
+      keepgoing: false
+      rankOrder: ascending
+      threadcount: 1
+    filter: .*
+  nodesSelectedByDefault: true
+  options:
+  - description: The name of the package
+    name: package
+    required: true
+  scheduleEnabled: true
+  sequence:
+    commands:
+    - script: |
+        #!/bin/bash
+
+        if [ -x /usr/bin/yum ] ; then
+         rpm -q ${option.package} > /dev/null 2>&1
+         if [ $? =  0 ] ; then
+           echo "Package ${option.package} is already installed."
+         else
+           yum -y install ${option.package}
+         fi
+        elif [ -x /usr/bin/apt-get ] ; then
+         dpkg -l ${option.package} > /dev/null 2>&1
+         if [ $? =  0 ] ; then
+           echo "Package ${option.package} is already installed."
+         else
+           apt-get install ${option.package}
+         fi
+        fi
+    keepgoing: false
+    strategy: node-first
+  uuid: 7c2e36a4-7dd1-4b98-ba1e-ec990c084b7d
