@@ -32,7 +32,7 @@
          if [ $? =  0 ] ; then
            echo "Package @option.package@ is already installed."
          else
-           sudo apt-get install @option.package@
+           sudo apt-get -y install @option.package@
          fi
         fi
     keepgoing: true
