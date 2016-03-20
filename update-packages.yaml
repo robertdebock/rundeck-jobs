@@ -19,9 +19,9 @@
         #!/bin/bash
 
         if [ -x /usr/bin/yum ] ; then
-         yum check-update
+         sudo yum -y update
         elif [ -x /usr/bin/apt-get ] ; then
-         echo "apt-get is not configured..."
+         sudo apt-get -y update
         fi
     - description: Hostname
       exec: echo "$(date) Finished update."
