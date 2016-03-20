@@ -23,7 +23,7 @@
         if [ -x /usr/bin/yum ] ; then
          rpm -q @option.package@ > /dev/null 2>&1
          if [ $? =  0 ] ; then
-           sudo yum erase @option.package@
+           sudo yum -y erase @option.package@
          else
            echo "Package @option.package@ is not installed."
          fi
