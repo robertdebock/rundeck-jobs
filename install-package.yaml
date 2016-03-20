@@ -21,20 +21,19 @@
         #!/bin/bash
 
         if [ -x /usr/bin/yum ] ; then
-         rpm -q ${option.package} > /dev/null 2>&1
+         rpm -q $RD_OPTION_PACKAGE > /dev/null 2>&1
          if [ $? =  0 ] ; then
-           echo "Package ${option.package} is already installed."
+           echo "Package $RD_OPTION_PACKAGE is already installed."
          else
-           yum -y install ${option.package}
+           yum -y install $RD_OPTION_PACKAGE
          fi
         elif [ -x /usr/bin/apt-get ] ; then
-         dpkg -l ${option.package} > /dev/null 2>&1
+         dpkg -l $RD_OPTION_PACKAGE > /dev/null 2>&1
          if [ $? =  0 ] ; then
-           echo "Package ${option.package} is already installed."
+           echo "Package $RD_OPTION_PACKAGE is already installed."
          else
-           apt-get install ${option.package}
+           apt-get install $RD_OPTION_PACKAGE
          fi
         fi
     keepgoing: true
     strategy: node-first
-  uuid: 7c2e36a4-7dd1-4b98-ba1e-ec990c084b7d
