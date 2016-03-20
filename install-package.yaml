@@ -5,7 +5,7 @@
   nodefilters:
     dispatch:
       excludePrecedence: true
-      keepgoing: false
+      keepgoing: true
       rankOrder: ascending
       threadcount: 1
     filter: .*
