@@ -30,7 +30,7 @@
         elif [ -x /usr/bin/apt-get ] ; then
          dpkg -l @option.package@ > /dev/null 2>&1
          if [ $? =  0 ] ; then
-           sudo apt-get -y remove @option.package@
+           sudo DEBIAN_FRONTEND=noninteractive apt-get -y remove @option.package@
          else
            echo "Package @option.package@ is not installed."
          fi
