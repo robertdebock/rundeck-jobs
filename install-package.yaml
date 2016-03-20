@@ -35,6 +35,6 @@
            apt-get install ${option.package}
          fi
         fi
-    keepgoing: false
+    keepgoing: true
     strategy: node-first
   uuid: 7c2e36a4-7dd1-4b98-ba1e-ec990c084b7d
