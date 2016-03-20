@@ -28,7 +28,7 @@
            sudo yum -y install @option.package@
          fi
         elif [ -x /usr/bin/apt-get ] ; then
-         dpkg -l @option.package@ > /dev/null 2>&1
+         dpkg -s @option.package@ | grep "Status: install ok installed" > /dev/null 2>&1
          if [ $? =  0 ] ; then
            echo "Package @option.package@ is already installed."
          else
