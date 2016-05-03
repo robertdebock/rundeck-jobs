@@ -1,0 +1,26 @@
+- description: Delete a node from RUNDECK
+  executionEnabled: true
+  id: 3dd98062-264b-4d00-b4cc-896925bc1294
+  loglevel: INFO
+  name: DeleteNode
+  options:
+  - description: The name that RUNDECK will display for this host. Used for administrative purposes, no technical purpose.
+    name: nodename
+    required: true
+    value: nodename
+  - description: The name of the RUNDECK project.
+    name: project
+    required: true
+    value: myProject
+  scheduleEnabled: true
+  sequence:
+    commands:
+    - script: |-
+        #!/bin/bash
+
+        resourcefile="/var/rundeck/projects/@option.project@/etc/resources.xml"
+
+        sed -i '/<node name=\"@option.nodename@\"/d' ${resourcefile}
+    keepgoing: false
+    strategy: node-first
+  uuid: 3dd98062-264b-4d00-b4cc-896925bc1294

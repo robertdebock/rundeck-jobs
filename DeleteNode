@@ -1,0 +1,67 @@
+- description: Add a node to RUNDECK
+  executionEnabled: true
+  id: 81859c58-5de0-4cc6-82a3-9358ebb9fb18
+  loglevel: INFO
+  name: AddNode
+  options:
+  - description: The way to authenticate to the node.
+    enforced: true
+    name: authentication
+    required: true
+    value: privateKey
+    values:
+    - password
+    - privateKey
+  - description: The hostname where to connect to, can be a hostname of IP address.
+    name: hostname
+    required: true
+    value: hostname.example.com
+  - description: The name that RUNDECK will display for this host. Used for administrative purposes, no technical purpose.
+    name: nodename
+    required: true
+    value: nodename
+  - description: The path where the SSH password is stored.
+    name: password-path
+    required: true
+    value: keys/passwords/yf30lg
+  - description: The name of the RUNDECK project.
+    name: project
+    required: true
+    value: myProject
+  - description: The username that RUNDECK will use to connect to the machine.
+    name: username
+    required: true
+    value: rundeck
+  scheduleEnabled: true
+  sequence:
+    commands:
+    - script: |-
+        #!/bin/bash -x
+
+        resourcefile="/var/rundeck/projects/@option.project@/etc/resources.xml"
+
+        # See if the host will be unique
+        grep "<node name=\"@option.nodename@\"" ${resourcefile} > /dev/null 2>&1
+
+        case $? in
+          0)
+            echo "The node @option.nodename@ is already listed in ${resourcefile}."
+            exit 1
+          ;;
+          1)
+            sed -i '/<\/project>/d' ${resourcefile}
+            if [ "x@option.password-path@" != "x" ] ; then
+              echo "  <node name=\"@option.nodename@\" hostname=\"@option.hostname@\" username=\"@option.username@\" ssh-authentication=\"@option.authentication@\" ssh-password-storage-path=\"@option.password-path@\"/>" >> ${resourcefile}
+            else
+              echo "  <node name=\"@option.nodename@\" hostname=\"@option.hostname@\" username=\"@option.username@\" ssh-authentication=\"@option.authentication@\"/>" >> ${resourcefile}
+            fi
+            echo "</project>" >> ${resourcefile}
+          ;;
+          *)
+            echo "Unknown error occurred."
+            exit 2
+          ;;
+        esac
+    keepgoing: false
+    strategy: node-first
+  uuid: 81859c58-5de0-4cc6-82a3-9358ebb9fb18
