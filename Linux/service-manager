@@ -1,0 +1,51 @@
+- description: A job to manage a service.
+  executionEnabled: true
+  id: 4ae55115-ad27-4b9b-9e2a-088f8ce56568
+  loglevel: INFO
+  name: Stop, Start or Restart a service
+  nodefilters:
+    dispatch:
+      excludePrecedence: true
+      keepgoing: false
+      rankOrder: ascending
+      threadcount: 1
+    filter: ${option.hostname}
+  nodesSelectedByDefault: true
+  options:
+  - description: What to do to the service.
+    enforced: true
+    name: action
+    required: true
+    values:
+    - restart
+    - start
+    - stop
+  - description: The hostname where to run this job
+    name: hostname
+    required: true
+  - description: The service to manage.
+    enforced: true
+    name: service
+    required: true
+    values:
+    - httpd
+    - sshd
+  scheduleEnabled: true
+  sequence:
+    commands:
+    - description: ${option.action} the service ${option.service} on ${option.hostname}
+      script: |-
+        #!/bin/sh
+
+        # See if the service exists.
+        service @option.service@ status
+        if [ $? !-eq 0 ] ; then
+          echo "The service @option.service@ does not exist."
+          exit 1
+        fi
+
+        # Manage the service
+        service @option.service@ @option.action@
+    keepgoing: false
+    strategy: node-first
+  uuid: 4ae55115-ad27-4b9b-9e2a-088f8ce56568
